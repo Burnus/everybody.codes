@@ -1,0 +1,6 @@
+[package]
+name = "day02_the_kingdom_of_algorithmia"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
