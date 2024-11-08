@@ -1,0 +1,6 @@
+[package]
+name = "day01_the_battle_for_the_farmlands"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
