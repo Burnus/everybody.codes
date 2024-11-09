@@ -1,0 +1,6 @@
+[package]
+name = "day05_pseudo-random_clap_dance"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
