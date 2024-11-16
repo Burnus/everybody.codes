@@ -2,14 +2,16 @@ use core::fmt::Display;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum ParseError {
-    GridMalformed,
+    GridMalformed(String),
+    GridOfGridsMalformed,
     ParseCharError(char),
 }
 
 impl Display for ParseError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::GridMalformed => write!(f, "Grid must be 8*8 characters"),
+            Self::GridMalformed(e) => write!(f, "Grid must be 8*8 characters: {e}"),
+            Self::GridOfGridsMalformed => write!(f, "All grid components must be of equal length"),
             Self::ParseCharError(e) => write!(f, "Unable to parse character {e}"),
         }
     }
@@ -29,7 +31,7 @@ impl TryFrom<&str> for Grid {
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         let lines: Vec<_> = value.lines().collect();
         if !lines.len() == 8 || lines.iter().any(|line| line.len() != 8) {
-            return Err(Self::Error::GridMalformed);
+            return Err(Self::Error::GridMalformed(value.to_string()));
         }
         let rows = lines[2..6].iter().map(|line| line.chars().take(2).chain(line.chars().skip(6)).collect::<Vec<char>>()).collect();
         let columns = (2..6).map(|col| [0, 1, 6, 7].iter().map(|row| lines[*row].chars().nth(col).unwrap()).collect::<Vec<char>>()).collect();
@@ -65,7 +67,7 @@ impl Grid {
     }
 }
 
-fn into_grids_split(input: &str) -> Vec<Vec<String>> {
+fn into_grids_split(input: &str) -> Result<Vec<Vec<String>>, ParseError> {
     let rows: Vec<_> = input.split("\n\n").collect();
     rows
         .iter()
@@ -79,35 +81,37 @@ fn into_grids_split(input: &str) -> Vec<Vec<String>> {
             (0..cells[0].len())
                 .map(|idx| cells
                     .iter()
-                    .map(|line| line[idx])
-                    .collect()
-                ).collect::<Vec<Vec<&str>>>()
-                .iter()
-                .map(|s| s.join("\n"))
-                .collect::<Vec<String>>()
-        }).collect()
+                    .map(|line| line.get(idx).copied().ok_or(ParseError::GridOfGridsMalformed))
+                    .collect::<Result<Vec<&str>, _>>()
+                    .map(|s| s.join("\n"))
+                ).collect::<Result<Vec<String>, _>>()
+        }).collect::<Result<Vec<_>, ParseError>>()
 }
 
-fn into_grids_shared(input: &str) -> Vec<Vec<String>> {
+fn into_grids_shared(input: &str) -> Result<Vec<Vec<String>>, ParseError> {
     let lines: Vec<_> = input.lines().collect();
     (0..lines.len()-7)
         .step_by(6)
         .map(|first_row| {
-            (0..lines[first_row].len()-7)
-                .step_by(6)
-                .map(|first_col| {
-                    lines[first_row..first_row+8]
-                        .iter()
-                        .map(|line| line.chars().skip(first_col).take(8).collect::<String>())
-                        .collect::<Vec<String>>()
-                        .join("\n")
-                }).collect::<Vec<String>>()
-        }).collect()
+            if lines[first_row].len() < 8 {
+                Err(ParseError::GridOfGridsMalformed)
+            } else {
+                Ok((0..lines[first_row].len()-7)
+                    .step_by(6)
+                    .map(|first_col| {
+                        lines[first_row..first_row+8]
+                            .iter()
+                            .map(|line| line.chars().skip(first_col).take(8).collect::<String>())
+                            .collect::<Vec<String>>()
+                            .join("\n")
+                    }).collect::<Vec<String>>())
+            }
+        }).collect::<Result<Vec<_>, _>>()
 }
 
-fn into_grids(input: &str) -> Vec<Vec<String>> {
+fn into_grids(input: &str) -> Result<Vec<Vec<String>>, ParseError> {
     match input.lines().nth(8) {
-        None => vec![vec![input.to_string()]],
+        None => Ok(vec![vec![input.to_string()]]),
         Some("") => into_grids_split(input),
         _ => into_grids_shared(input),
     }
@@ -186,7 +190,7 @@ fn solve_grids(grids: &mut [Vec<Grid>]) -> bool {
 }
 
 pub fn run(input: &str, part: usize) -> Result<String, ParseError> {
-    let mut grids = into_grids(input).iter().map(|row| row.iter().map(|g| Grid::try_from(&g[..])).collect::<Result<Vec<_>, _>>()).collect::<Result<Vec<Vec<_>>, _>>()?;
+    let mut grids = into_grids(input)?.iter().map(|row| row.iter().map(|g| Grid::try_from(&g[..])).collect::<Result<Vec<_>, _>>()).collect::<Result<Vec<Vec<_>>, _>>()?;
     match part {
         1 => Ok(grids[0][0].runic_word()),
         2 => Ok(format!("{}", grids.iter_mut().flatten().map(|g| g.effective_power()).sum::<usize>())),
