@@ -51,23 +51,35 @@ struct Catapult {
 }
 
 impl Catapult {
+    /// If this catapult is able to hit the `target` coordinates, this returns `Some(p)`, where `p`
+    /// is the `Phase`, in which it will be hit. If it cannot be hit, `None` is returned.
     fn can_hit(&self, target: Coordinates) -> Option<Phase> {
         if target.x <= self.coordinates.x {
+            // we only ever shoot to the right
             None
         } else if target.y <= self.coordinates.y {
+            // Special case to avoid underflows and division by zero below.
+            // If the target is on equal or lower height than the catapult, we can only ever hit it
+            // in descend phase (or not at all), so we don't need to check the other cases
             if (target.x + target.y - (self.coordinates.x + self.coordinates.y)) % 3 == 0 {
                 Some(Phase::Descend)
             } else {
                 None
             }
         } else {
-            match (target.x - self.coordinates.x) / (target.y - self.coordinates.y) {
-                0 => if target.y - self.coordinates.y == target.x - self.coordinates.x {
+            match (target.x - self.coordinates.x).div_ceil(target.y - self.coordinates.y) {
+                // The match formula determines in which phase (if any) we could hit the target:
+                // * (>0..1): The y difference is greater than the x difference. We can't possibly
+                //            hit. (Exact 0 is already being handled by the special casing above).
+                // * 1 exactly: The x and y differences are equal. We definately hit in ascend phase.
+                // * (>1..=2): This marks the glide phase. We definately hit there.
+                // * (>2..): Descend phase. We hit if the sums of x and y differ by a multiple of 3.
+                1 => if target.y - self.coordinates.y == target.x - self.coordinates.x {
                         Some(Phase::Ascend)
                     } else {
                         None
                     },
-                1 => Some(Phase::Glide),
+                2 => Some(Phase::Glide),
                 _ => if (target.x + target.y - (self.coordinates.x + self.coordinates.y)) % 3 == 0 {
                         Some(Phase::Descend)
                     } else {
@@ -77,6 +89,10 @@ impl Catapult {
         }
     }
 
+    /// Returns the (minimal) shooting power required to hit the `target`, or `None` if it cannot be
+    /// hit. If the target is being hit in the ascend phase, any power greater than or equal to the
+    /// returned value will hit the target. In the other two phases, only this exact value will
+    /// hit.
     fn power_to_hit(&self, target: Coordinates) -> Option<usize> {
         match self.can_hit(target) {
             Some(Phase::Ascend) | Some(Phase::Glide) => Some(target.y - self.coordinates.y),
@@ -98,9 +114,12 @@ fn try_parse(input: &str) -> Result<(Vec<Catapult>, Vec<Coordinates>), ParseErro
             match c {
                 '.' | '=' => (),
                 'T' => targets.push(Coordinates { x, y }),
-                'H' => targets.append(&mut vec![Coordinates { x, y }; 2]),
-                c if ['A', 'B', 'C'].contains(&c) => catapults.push(
-                    Catapult { coordinates: Coordinates { x, y }, segment_number: c as usize - b'@' as usize }),
+                'H' => targets.append(&mut vec![Coordinates { x, y }; 2]), // same as 2 targets in the same spot
+                c if ['A', 'B', 'C'].contains(&c) => 
+                    catapults.push( Catapult { 
+                        coordinates: Coordinates { x, y }, 
+                        segment_number: c as usize - b'@' as usize,
+                    }),
                 e => return Err(ParseError::ParseCharError(e)),
             }
         }
@@ -112,11 +131,30 @@ pub fn run(input: &str, part: usize) -> Result<usize, ParseError> {
     match part {
         1 | 2 => {
             let (catapults, targets) = try_parse(input)?;
-            let score = (0..targets.len())
-                .map(|shot| {
-                    let target = targets[shot];
-                    let catapult = catapults.iter().find(|c| c.can_hit(target).is_some()).unwrap();
-                    catapult.segment_number * catapult.power_to_hit(target).unwrap()
+            // Despite the challenge suggesting it, the order in which we attack the targets
+            // doesn't actually matter. Since all targets are being hit in the descend phase, and
+            // during that phase, any point can be reached by exactly one of our catapults (see
+            // sketch below) with exactly one value of shooting power, the ranking of each target 
+            // can only ever have one value. Hence, we only need to make sure to visit every target
+            // exactly once.
+            //
+            // The following sketch shows, which points are reachable from which catapult in
+            // descend phase with shooting powers 1..=3 (lowercase letters indicate the catapults, 
+            // uppercase the reachable points; dots are not reachable in descend phase):
+            //
+            // ........C
+            // ......C.BC
+            // .c..C.BCABC
+            // .b..BCABCABC
+            // .a..ABCABCABC
+            // =============
+            let score = targets
+                .iter()
+                .map(|&target| {
+                    catapults
+                        .iter()
+                        .find_map(|c| c.power_to_hit(target).map(|p| p * c.segment_number))
+                        .expect("target unreachable")
                 }).sum();
             Ok(score)
         },
@@ -127,18 +165,18 @@ pub fn run(input: &str, part: usize) -> Result<usize, ParseError> {
                 Catapult { coordinates: Coordinates { x: 0, y: 2 }, segment_number: 3 },
             ];
             let meteors = input.lines().map(Coordinates::try_from).collect::<Result<Vec<_>, _>>()?;
-            let score = meteors.iter().map(|meteor| {
-                for time in meteor.x.div_ceil(2)..(meteor.x).max(meteor.y) {
-                    let target = Coordinates { x: meteor.x - time, y: meteor.y - time };
-                    let shooters: Vec<_> = catapults.iter().filter(|c| c.can_hit(target).is_some()).collect();
-                    if !shooters.is_empty() {
-                        return shooters.iter().map(|c| 
-                                c.segment_number * c.power_to_hit(target).unwrap()
-                            ).min().unwrap();
-                    }
-                }
-                panic!("A meteor could not be hit by any catapult");
-            }).sum();
+            let score = meteors
+                .iter()
+                .map(|meteor| {
+                    (meteor.x.div_ceil(2)..=(meteor.x).max(meteor.y))
+                        .find_map(|time| {
+                            let target = Coordinates { x: meteor.x - time, y: meteor.y - time };
+                            catapults
+                                .iter()
+                                .filter_map(|c| c.power_to_hit(target).map(|p| p * c.segment_number))
+                                .min()
+                        }).expect("target unreachable")
+                }).sum();
 
             Ok(score)
         },
