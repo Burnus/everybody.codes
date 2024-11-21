@@ -1,0 +1,73 @@
+Part I
+
+A new days begins and your festivities are interrupted by a messenger arriving at the camp. He brings news from the king that the dear Princess Adventa of the Royal Code Family and her feline companion have been captured and are in dire need of rescuing, without delay.
+Undoubtedly, every knight has saved a princess or prince trapped in a tower at least once in their life, so this is a task that you are well prepared to undertake. The organisers of the competition have requested one courageous volunteer to rescue the damsel, and you bravely accept the challenge, as your loyalty to the crown takes precedence over prestige among colleagues.
+You begin to read the message that was delivered from the king, and you find out that the princess is being held in the Chamber of Eternal Descent. Just reaching such a fortress is a significant challenge, not to mention overcoming all the traps and puzzles within, so the organisers have agreed that should you survive the rescue attempt, and the princess is safely returned to her home, your efforts will be counted against today's challenge, and you promise to return Her Royal Highness to her home as quickly as you can.
+You arrive at the coordinates indicated in the message and find a scroll on a stand outside the entrance to the chamber. In the distance, you see a man disappearing into the horizon. Did he leave that here? You open the scroll and realize that it details how the chamber works, enabling you to save time on strategy and head straight into the challenge.
+The area of the chamber (your notes) consists of walls and movable platforms that levitate in the air due to magical forces. Each platform has a lever, allowing it to move up or down like an elevator. The platforms can be at 10 levels, from  0  to  9 . Both the ceiling and the floor are large portals. If you try to move a platform up while on level  9 , you will be transferred to level  0  via the portal. If you try to move down from level  0 , you will find yourself on level  9 . The walls are marked with  #  and cannot be traversed.
+You start on platform  S , which is at level  0 . Your task is to reach point  E , also at level 0, as that is where the Princess and her cat are being held. The knight's armour is heavy, so jumping or climbing is out of the question. You can only move between platforms if they are on the same level, but changing the level of a platform takes time.
+Additionally, each platform disintegrates into thousands of pieces after it is left, so each square in the vertical maze can be visited only once. If you lose your footing, you will fall into an endless loop of continuous falling, so it is better to plan the route carefully in advance.
+Of course, it is necessary to complete this task in the shortest time possible, as a prolonged time in captivity is not beneficial to a princess's mental health (and her cat is getting hungry too). Each level change takes 1 second. You can only change the level of the platform you are currently on. Moving from one platform to another also takes 1 second.
+Let's go!
+Example based on the following notes:
+#######
+#6769##
+S50505E
+#97434#
+#######
+Some possible paths (and their times) for the given maze are as follows:
+#######
+#6769##
+S50505E
+#97434#
+#######
+
+36 sec.
+   #######
+#6769##
+S50505E
+#97434#
+#######
+
+30 sec.
+   #######
+#6769##
+S50505E
+#97434#
+#######
+
+28 sec.
+The last one is actually the optimal path, so this maze can be completed in 28 seconds.
+What is the minimum number of seconds needed to complete your maze?
+
+Part II
+
+Success! You have secured the princess and her pet, and now it is just the simple matter of exiting the chamber. That should be easy, right? You can't return the way you came, so you enter the next, much larger, maze.
+Fortunately, the rules remain unchanged, so you can swiftly devise another action plan. The staring point is still marked with  S  and the exit on the further end is marked with an  E .
+What is the minimum number of seconds needed to complete your maze?
+
+Part III
+
+You swiftly moved through the maze only to discover that there is yet another before you. However, it looks somewhat different. At its center is a special portal on level 0, marked as  E , that can be used as an exit to the outside. It is surrounded by many walls and platforms at various levels.
+The entire area is enclosed by platforms at level 0, marked as  S . You can start the mission from any  S  point on this floor, but which starting position will allow you to do it as fast as possible?
+Example based on the following notes:
+SSSSSSSSSSS
+S674345621S
+S###6#4#18S
+S53#6#4532S
+S5450E0485S
+S##7154532S
+S2##314#18S
+S971595#34S
+SSSSSSSSSSS
+With the optimal path, this maze can be completed in 14 sec.
+SSSSSSSSSSS
+S674345621S
+S###6#4#18S
+S53#6#4532S
+S5450E0485S
+S##7154532S
+S2##314#18S
+S971595#34S
+SSSSSSSSSSS
+What is the minimum number of seconds needed to complete your maze?
