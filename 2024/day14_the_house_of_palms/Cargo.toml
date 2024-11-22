@@ -1,0 +1,6 @@
+[package]
+name = "day14_the_house_of_palms"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]

@@ -1,0 +1,167 @@
+Part I
+
+A group of knights, including yourself, visits the royal gardens once again. This time, to the Palm House. It turns out that the Knights of the Order of the Golden Duck have developed a special plant, the Battlestick Tree, the wood of which is incredibly strong yet slightly flexible, making it ideal for constructing weaponry. The cultivation process has been refined to the point where it is possible to precisely control the growth to achieve practically any shape.
+The plant grows one segment per day according to the planned schedule. The growth plan consists of a sequence of steps. Each step is described by a direction and the number of segments to grow in that direction. The possible directions are listed below:
+ U  - upward
+ D  - downward
+ R  - right
+ L  - left
+ F  - forward
+ B  - backward
+For example, a growth step described as U10 means growing 10 segments upward. R1 means moving one segment to the right, and so on. Each step begins from the point where the previous step ended. The direction is always absolute, regardless of the previous direction of growth. After completing the entire growth plan, the plant is considered mature.
+The first task of the tournament involves calculating the final height (in number of segments) of the mature Battlestick Tree based on its growth plan (your notes).
+Example based on the following notes:
+U5,R3,D2,L5,U4,R5,D2
+For a sake of example, there are no  F  and  B  steps in this plan, so the plant can be visualized on a flat surface. Each frame represents one step.
+......
+......
+..#...
+..#...
+..#...
+..#...
+..#...
+======
+  U5
+   ......
+......
+..####
+..#...
+..#...
+..#...
+..#...
+======
+  R3
+   ......
+......
+..####
+..#..#
+..#..#
+..#...
+..#...
+======
+  D2
+   ......
+......
+..####
+..#..#
+######
+..#...
+..#...
+======
+  L5
+   #.....
+#.....
+#.####
+#.#..#
+######
+..#...
+..#...
+======
+  U4
+   ######
+#.....
+#.####
+#.#..#
+######
+..#...
+..#...
+======
+  R5
+   ######
+#....#
+#.####
+#.#..#
+######
+..#...
+..#...
+======
+  D2
+For this growth plan, the height of the mature plant is 7, as the highest part is 7 segments above ground level.
+What is the final height of the plant you are analysing?
+
+Part II
+
+Nicely done! Now you can prepare a single branch of the plant in any shape you wish.
+However, there is often a need to create slightly more complex shapes with more than just two endpoints. It can be achieved by planning several branches of the plant growing simultaneously. Each branch is described on a separate line and starts precisely from the same segment on the ground.
+Some segments, particularly the main trunk, appear in multiple branches, but this does not affect the growth plan. The mature plant consists of a group of segments, each having at least one adjacent segment fused on one of its sides.
+The next task involves analysing the growth plan of the Umbrella Tree. Your task is to calculate the number of unique segments that make up this tree once it reaches maturity.
+Example based on the following notes:
+U5,R3,D2,L5,U4,R5,D2
+U6,L1,D2,R3,U2,L1
+The first branch produces the same plant as in the example from part I and it contains 24 unique segments:
+######
+#....#
+#.####
+#.#..#
+######
+..#...
+..#...
+======
+The second line makes the branch below, containing 14 unique segments:
+......
+.####.
+.##.#.
+.####.
+..#...
+..#...
+..#...
+======
+The final plant is a combination of those two branches and consists of 32 unique segments (not 38, as some segments overlap):
+######
+######
+######
+######
+######
+..#...
+..#...
+======
+How many unique segments make up the mature plant according to the growth plan you need to analyse?
+
+Part III
+
+Great! Now you can prepare any shapes of plants that come to mind.
+Wood is just one of the resources obtained in this manner. The last tree that you need to understand is the Amberleaf Tree. The plants produce a special sap, that is indispensable in certain alchemical recipes. However, extracting the right quality of this liquid is not straightforward, and requires finding the right spot on the main trunk.
+The last segment of each branch forms a leaf. Therefore, the final plant has as many leaves as there are defined branch lines (assuming the leaves do not overlap). All segments of the plant located directly above the growth starting point constitute its main trunk.
+To harvest the precious sap, one can tap into a segment of the main trunk, ensuring that the total distance to all the leaves combined is minimised. The metal straw used for that process is very long, allowing it to pass through several segments before reaching the main trunk. The distance is measured by how many segments (at a minimum) it takes to travel from the tapped segment to a leaf. The sum of these distances indicates the level of the sap's murkiness, which should be as low as possible.
+All adjacent segments of the plant are connected (but not diagonally), even if they have grown from individual branches, so each segment can have at most 6 neighbours, one for each direction of growth.
+Example based on the following notes:
+U5,R3,D2,L5,U4,R5,D2
+U6,L1,D2,R3,U2,L1
+This plant has 2 leaves highlighted below:
+######
+######
+######
+######
+######
+..#...
+..#...
+======
+The main trunk comprises all segments that are directly above the starting point:
+######
+######
+######
+######
+######
+..#...
+..#...
+======
+A sample place to extract the sap from is one segment to the left of the top leaf:
+######
+######
+######
+######
+######
+..#...
+..#...
+======
+It's located 1 segment away from the top leaf, and 4 segments away from the bottom leaf, so the murkiness level is: 1 + 4 = 5, which is the minimum murkiness you can get from this plant.
+
+
+For the following more advanced example:
+U20,L1,B1,L2,B1,R2,L1,F1,U1
+U10,F1,B1,R1,L1,B1,L1,F1,R2,U1
+U30,L2,F1,R1,B1,R1,F2,U1,F1
+U25,R1,L2,B1,U1,R2,F1,L2
+U16,L1,B1,L1,B3,L1,B1,F1
+The best segment to tap into is 20 segments above the ground, and it allows for obtaining sap with the lowest possible murkiness level: 46.
+What is the minimum murkiness level of the sap that can be obtained from the tree you are analysing?
