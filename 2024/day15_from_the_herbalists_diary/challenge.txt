@@ -1,0 +1,66 @@
+Part I
+
+Visiting the alchemists' workshop is always a fascinating experience. The shelves are filled with colourful herbs, each meticulously cared for, all housed in its own pot. Many of them you are seeing for the first time in your life, which seems odd as you know the nearby forests like the back of your hand. The only place you couldn't explore is the Infinite Loop Forest, guarded day and night by the knights of the Order. You have suspected for a long time that these unique plants can be found there, and today you will have the chance to verify that by yourself!
+This time, the candidates for joining the Order must demonstrate their ability to navigate unfamiliar terrain. Each knight receives a map with the locations of various herbs (your notes). Each type of herb is represented by a unique capital letter and can appear in multiple locations. To collect the herb, you must step on the field where this herb grows. Fields marked with  #  are poison bushes (and thus, should be avoided).
+Every map represents an enclosed area with a single entry point at the top edge. The race begins from this point. The first task is to find the herb marked on the map with  H  and return to the starting point. Only a single plant is enough. You don't have to visit all the places where the herb grows. Time is of the essence, so you need to plan the shortest possible route to achieve this goal!
+Example based on the following notes:
+#####.#####
+#.........#
+#.######.##
+#.........#
+###.#.#####
+#H.......H#
+###########
+In the example above, the herb we need to collect grows in the lower corners of the map.
+One possible path is as follows (arrows show the direction of movement):
+It takes 13 steps to reach the herb in the left corner,
+
+#####↓#####
+#↓←←←←....#
+#↓######.##
+#→→↓......#
+###↓#.#####
+#H←←.....H#
+###########
+
+ 
+and then another 13 steps to go back to the starting point.
+
+#####.#####
+#→→→→↑....#
+#↑######.##
+#↑←←......#
+###↑#.#####
+#→→↑.....H#
+###########
+
+ 
+Therefore, the total distance is: 13 + 13 = 26 steps, which is also the shortest possible path to collect the herb.
+What is the minimum number of steps required to collect the herb and then return to the starting point?
+
+Part II
+
+The second round is very similar to the first one. The only changes are the map itself and the presence of a lake, marked with the symbol  ~ , that you cannot enter because your armour would get rusty, significantly slowing your movement. Additionally, the number of herb types you need to collect has increased, but it is still required to collect only one plant of each kind.
+Example based on the following notes:
+##########.##########
+#...................#
+#.###.##.###.##.#.#.#
+#..A#.#..~~~....#A#.#
+#.#...#.~~~~~...#.#.#
+#.#.#.#.~~~~~.#.#.#.#
+#...#.#.B~~~B.#.#...#
+#...#....BBB..#....##
+#C............#....C#
+#####################
+In the example map above, there are three different types of herbs: A, B, and C.
+The shortest path to collect at least one plant of each kind takes 38 steps:
+12 steps to reach the A on the left side,
+7 more steps to move to the C in the left corner,
+9 more steps to move to the first B from the left,
+and 10 more steps to return to the entry point.
+What is the minimum number of steps required to collect at least one plant of each type of herb on your map and then return to the starting point?
+
+Part III
+
+The final round of the competition seems to be the same as it was in the previous two rounds. All the rules remain unchanged. The map is slightly larger, the number of herbs to collect has increased again, but some areas seem familiar, so it should go smoothly... right?
+What is the minimum number of steps required to collect at least one plant of each type of herb on your map and then return to the starting point?
