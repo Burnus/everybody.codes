@@ -1,0 +1,105 @@
+Part I
+
+You find yourself strolling through the streets of the town buzzing with excitement for the Tournament. As you meander along the cobblestone paths, you can't help but notice the Byter Paelish, standing proudly in front of his Entertainment Hub with a peculiar contraption by his side that looks like a mix between a jukebox and a magical slot machine.
+The machine, or as the Byter put it, the "Cat Grin of Fortune" features a window showcasing a line-up of whimsical cat faces: left eye, muzzle, and right eye, like a happy cat represented by ^_^. A hefty lever on the right side seems to control the fate of these cat codes.
+The Byter pulls the right lever and cat faces scroll in the window, appearing to be engraved on wheels . This explains the machine's size compared to the window. After a suspenseful moment, the wheels halt one after another, revealing a new sequence of cats.
+To the tune of lute strings and catchy lyrics, Paelish spills the beans on the rules of the game. For every trio of identical symbols in the whimsically random cat sequence, you'll be rewarded with one Byte Coin. But the fun doesn't stop there - every additional symbol matching the trio adds another coin to your prize!
+The Byter explains there are no secrets in the Cat Grin of Fortune. The side of the machine has the operating instructions and the wheel configurations (your notes) engraved on it. Above the image screen, a counter displays the number of right lever pulls since the machine started operating.
+As you delve into the instructions, it becomes apparent that this contraption isn't just a random assortment of items. It is a simple yet whimsical masterpiece, where each wheel spins a sequence of cat faces, represented for simplicity as a vertical strip. Before the right lever is pulled for the first time, the wheels are set to display the first symbol of each strip. The numbers above the strips show how many positions each wheel turns with a single pull of the right lever. You wonder if it is easy to predict the next sequence on the wheels. The counter currently shows number 99, so you need to predict the 100th sequence.
+Example based on the following notes:
+1,2,3
+
+^_^ -.- ^,-
+>.- ^_^ >.<
+-_- -.- >.<
+    -.^ ^_^
+    >.>
+The first line contains the number of positions each wheel turns with a single pull of the right lever. The rest of the input represents the sequence of symbols on each wheel as vertical strips. The machine starts by displaying the first trio of symbols: ^_^ -.- ^,-.
+After the first pull, the first wheel turns by 1, the second by 2, and the third by 3 positions, resulting in the new sequence: >.- -.- ^_^ which is worth 1 Byte Coin for the - triple.
+After the second pull, the wheels turn again in the same way, resulting in: -_- >.> >.< which is also worth 1 Byte Coin for the > triple. Below you can see the results of pulling the right lever several times, followed by the number of coins won.
+Pull       Result      Byte Coins Won
+  0:    ^_^ -.- ^,-          -
+  1:    >.- -.- ^_^          1
+  2:    -_- >.> >.<          1
+  3:    ^_^ ^_^ >.<          2   (one extra for 4th ^ symbol)
+  4:    >.- -.^ ^,-          1
+  5:    -_- -.- ^_^          2   (one extra for 4th - symbol)
+...
+ 21:    ^_^ -.- ^_^          2   (one extra for 4th ^ symbol)
+...
+ 33:    ^_^ ^_^ ^_^          5   (one coin for _ trio plus 4 coins for six ^ symbols) 
+...
+100:    >.- -.- ^,-          2
+...
+For this example, the 100th sequence of the Cat Grin of Fortune is >.- -.- ^,-.
+What is the 100th sequence produced by the Byter's machine?
+
+Part II
+
+As soon as the next sequence appears in the machine's window, you hear horns announcing a gathering of tournament participants at Paelish's estate. The Knights of the Order decide to check the fairness of the owner's machines and at the same time play the next round of the tournament.
+The knights enter the Entertainment Hub, where there are dozens of machines similar to the one at the entrance, but their wheel schemes are much more complex. Additionally, the game instructions are slightly different. The muzzles of the cats are ignored in the search for matching symbols. Only the eyes are interpreted, which likely reduces the chances of winning by a significant amount.
+Each knight's task is to calculate the number of coins won so far on the machine they are analysing. You approach your machine (your notes). The right lever pull counter shows the value 202420242024.
+Example based on the following notes:
+1,2,3
+
+^_^ -.- ^,-
+>.- ^_^ >.<
+-_- -.- >.<
+    -.^ ^_^
+    >.>
+For this example, the total number of Byte Coins won after pulling the right lever several times is as follows:
+           Pull        Total Byte Coins 
+             0:                       -
+             1:                       1
+             2:                       2
+             3:                       4
+             4:                       5
+             5:                       7
+            ...                     ...
+            10:                      15
+           100:                     138
+          1000:                    1383
+         10000:                   13833
+        100000:                  138333
+       1000000:                 1383333
+      10000000:                13833333
+     100000000:               138333333
+    1000000000:              1383333333
+   10000000000:             13833333333
+  100000000000:            138333333333
+  202420242024:            280014668134
+What is the total number of Byte Coins won so far on the machine you are verifying after  202420242024  pulls of the right lever?
+
+Part III
+
+Just as you expected, in the long run, it is impossible to win as much as you invest on any of the machines. Byter Paelish explains that anyone can check if they will win or not before pulling the right lever, and it is not his fault that people are simply lazy and prefer to rely on luck. However, the Knights of the Order are relentless and order the immediate shutdown of the machines.
+But instead, Paelish instructs his employees to reset the wheels to their initial state, add a second lever to each machine on the left side and to hang an additional informational plaque outlining the rules of the game. With his signature smile, he then asks the Knights of the Order to re-evaluate the machines. It appears that the old fox was prepared for a knightly inspection.
+The informational plaque introduces the following rule: when all wheels have stopped, you may pull the lever on the left side of the machine to move all wheels downwards by one step, or push it to move all wheels upwards by one step. You don't win any coins after this move alone, and you can do it only once or not at all before pulling the right lever, which triggers the spin.
+The inspectors decide that to verify the legality of the machines, knights need to calculate the maximum and minimum number of Byte Coins that can be won with 256 pulls of the right lever.
+Example based on the following notes:
+1,2,3
+
+^_^ -.- ^,-
+>.- ^_^ >.<
+-_- -.- ^.^
+    -.^ >.<
+    >.>
+The machine starts by displaying the first trio of symbols: ^_^ -.- ^,-.
+Before pulling the right lever, you may push or pull the left one, changing the sequence to
+>.- ^_^ >.< - with a pull (the wheels move one step forward).
+-_- >.> >.< - with a push (the wheels move one step backward).
+So, with the first pull of the right lever, the result might be:
+Before the pull     After the pull      Byte Coins Won
+ ^_^ -.- ^,-          >.- -.- >.<             1
+ >.- ^_^ >.<          -_- -.^ ^,-             2
+ -_- >.> >.<          ^_^ ^_^ ^.^             4 
+With a single right lever pull, the maximum number of coins you can win is 4 and the minimum number is 1, so the answer would be 4 1.
+The results for further right lever pulls stand as follows:
+for 2 pulls: 6 1
+for 3 pulls: 9 2
+for 10 pulls: 26 5
+for 100 pulls: 246 50
+for 256 pulls: 627 128
+for 1000 pulls: 2446 500
+for 2024 pulls: 4948 1012
+What is the maximum and the minimum number of Byte Coins that can be won on your new machine with  256  right lever pulls?
