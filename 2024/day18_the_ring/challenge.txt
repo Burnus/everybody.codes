@@ -1,0 +1,235 @@
+Part I
+
+Near the rapidly constructed shrine of the god Nullpointer, a new area is being allocated for palm tree cultivation. The terrain of the desert is quite suitable for these plants but also challenging, requiring a well-planned irrigation system to ensure efficient growth.
+The irrigation system is a network of channels that will continuously supplies water to the trees. However, there are concerns about the distance over which an adequate amount of water can be delivered. The sun may evaporate the stream so quickly that the water disappears before reaching all the targets.
+The first palm farm is already under construction, but the knights are still analysing its design (your notes). The palm trees are marked with  P , and the channels are marked with  . . The remaining areas, marked as  # , are designated paths for workers, and must remain at ground level.
+The edge of the farm has exactly one cell marked as part of the channel:  . . This is where the water will enter the farm. Every minute the water spreads to all adjacent channel segments vertically and horizontally. The segments with palm trees are at the same level as the channel, and water can flow through them just like a regular channel segment.
+The task for the tournament challengers is to calculate the time needed for the water to reach all the palm trees from the moment the channel is supplied with water at the edge point.
+Example based on the following notes:
+##########
+..#......#
+#.P.####P#
+#.#...P#.#
+##########
+The water flow ( ~ ) starts from the left side and goes as follows:
+##########
+~.#......#
+#.P.####P#
+#.#...P#.#
+##########
+ time: 0
+   ##########
+~~#......#
+#.P.####P#
+#.#...P#.#
+##########
+ time: 1
+   ##########
+~~#......#
+#~P.####P#
+#.#...P#.#
+##########
+ time: 2
+   ##########
+~~#......#
+#~P.####P#
+#~#...P#.#
+##########
+ time: 3
+   ##########
+~~#......#
+#~P~####P#
+#~#...P#.#
+##########
+ time: 4
+   ##########
+~~#~.....#
+#~P~####P#
+#~#~..P#.#
+##########
+ time: 5
+   ##########
+~~#~~....#
+#~P~####P#
+#~#~~.P#.#
+##########
+ time: 6
+
+
+##########
+~~#~~~...#
+#~P~####P#
+#~#~~~P#.#
+##########
+ time: 7
+   ##########
+~~#~~~~..#
+#~P~####P#
+#~#~~~P#.#
+##########
+ time: 8
+   ##########
+~~#~~~~~.#
+#~P~####P#
+#~#~~~P#.#
+##########
+ time: 9
+   ##########
+~~#~~~~~~#
+#~P~####P#
+#~#~~~P#.#
+##########
+ time: 10
+   ##########
+~~#~~~~~~#
+#~P~####P#
+#~#~~~P#.#
+##########
+ time: 11
+All the palm trees receive water after 11 minutes.
+How much time is needed for the water to reach all the palm trees on the first farm?
+
+Part II
+
+The second farm will be much larger, but water will be supplied simultaneously from two points on opposite sides, so everything should be irrigated in reasonable time.
+Example based on the following notes:
+#######################
+...P..P...#P....#.....#
+#.#######.#.#.#.#####.#
+#.....#...#P#.#..P....#
+#.#####.#####.#########
+#...P....P.P.P.....P#.#
+#.#######.#####.#.#.#.#
+#...#.....#P...P#.#....
+#######################
+The water flow ( ~ ) starts simultaneously from the left and right sides and proceeds as follows:
+#######################
+~..P..P...#P....#.....#
+#.#######.#.#.#.#####.#
+#.....#...#P#.#..P....#
+#.#####.#####.#########
+#...P....P.P.P.....P#.#
+#.#######.#####.#.#.#.#
+#...#.....#P...P#.#...~
+#######################
+       time: 0
+    #######################
+~~.P..P...#P....#.....#
+#.#######.#.#.#.#####.#
+#.....#...#P#.#..P....#
+#.#####.#####.#########
+#...P....P.P.P.....P#.#
+#.#######.#####.#.#.#.#
+#...#.....#P...P#.#..~~
+#######################
+       time: 1
+    #######################
+~~~P..P...#P....#.....#
+#~#######.#.#.#.#####.#
+#.....#...#P#.#..P....#
+#.#####.#####.#########
+#...P....P.P.P.....P#.#
+#.#######.#####.#.#.#~#
+#...#.....#P...P#.#.~~~
+#######################
+       time: 2
+
+
+#######################
+~~~P..P...#P....#.....#
+#~#######.#.#.#.#####.#
+#~....#...#P#.#..P....#
+#.#####.#####.#########
+#...P....P.P.P.....P#~#
+#.#######.#####.#.#.#~#
+#...#.....#P...P#.#~~~~
+#######################
+       time: 3
+    #######################
+~~~P~.P...#P....#.....#
+#~#######.#.#.#.#####.#
+#~~...#...#P#.#..P....#
+#~#####.#####.#########
+#...P....P.P.P.....P#~#
+#.#######.#####.#.#~#~#
+#...#.....#P...P#.#~~~~
+#######################
+       time: 4
+   ...    #######################
+~~~P~~P~~~#P~~~~#.....#
+#~#######~#~#~#~#####.#
+#~~~~~#~~~#P#~#~~P....#
+#~#####~#####~#########
+#~~~P~~~~P~P~P~~~~~P#~#
+#~#######~#####~#~#~#~#
+#~~~#~~~~~#P~~~P#~#~~~~
+#######################
+       time: 21
+   
+All the palm trees receive water after 21 minutes.
+How much time is needed for the water to reach all the palm trees on the second farm?
+ 
+Part III
+
+The last of the farms is the largest, but it doesn't have any entry points for water sources at the edge. It turns out that there are groundwater reserves beneath the land and they are under high pressure, so it's enough to dig a big well (that occupies the entire segment) in the optimal spot and let nature take care of the rest.
+It has been found that water evaporates significantly when flowing through the channels, so the well should be dug at one of the channel segments marked with  .  where the sum of the times it takes for the water to reach all the palm trees is minimised.
+Example based on the following notes:
+##########
+#.#......#
+#.P.####P#
+#.#...P#.#
+##########
+One of the possible locations for the well is on the right side of one of the palm trees. The water flow ( ~ ) for that spot looks as follows:
+##########
+#.#......#
+#.P~####P#
+#.#...P#.#
+##########
+ time: 0
+   ##########
+#.#~.....#
+#.P~####P#
+#.#~..P#.#
+##########
+ time: 1
+   ##########
+#.#~~....#
+#~P~####P#
+#.#~~.P#.#
+##########
+ time: 2
+   ##########
+#~#~~~...#
+#~P~####P#
+#~#~~~P#.#
+##########
+ time: 3
+   ##########
+#~#~~~~..#
+#~P~####P#
+#~#~~~P#.#
+##########
+ time: 4
+   ##########
+#~#~~~~~.#
+#~P~####P#
+#~#~~~P#.#
+##########
+ time: 5
+   ##########
+#~#~~~~~~#
+#~P~####P#
+#~#~~~P#.#
+##########
+ time: 6
+
+
+##########
+#~#~~~~~~#
+#~P~####P#
+#~#~~~P#.#
+##########
+ time: 7
+The first palm receives water after just 1 minute. The second needs to wait for 4 minutes, and the third for 7 minutes.
+Summing these times gives a total of 1 + 4 + 7 = 12 minutes. Digging the well at any other location would result in a greater sum of times, so this is the optimal point for digging.
+Dig the well at the optimal point. What is the sum of the times it takes for the water to reach all the palm trees?

@@ -1,0 +1,59 @@
+Part I
+
+Stars are an excellent form of navigation system. Knowledge of them allows travellers to determine the exact locations of places both on land and at sea. Of course, the Knights of the Order possess extensive knowledge on this subject and can effortlessly identify all constellations. The best knights not only have physical strength but also intellectual prowess, so the Order is seeking to test the contestants' abilities in celestial cartography.
+First, you need to know how to measure the distance between two stars. Each star has coordinates that define its position in space. To calculate the distance between two stars based on their coordinates, take the absolute difference of their X coordinates and the absolute difference of their Y coordinates. Then sum these differences. For example, if you have two stars with coordinates at  2, 4  and at  7, 3 , the distance between them is calculated as  abs(2 - 7) + abs(4 - 3) = 5 + 1 = 6 .
+This method of measurement is known as the algorithm from Manhattan's Realm.
+A constellation is a group of stars that forms a single structure such that the sum of all distances between connected stars is as low as possible. There are also as few connections as necessary to maintain connectivity.
+Once the stars are connected in this manner, the size of the constellation is determined, which is the number of stars forming the constellation combined with the sum of the distances between connected stars.
+The sky is exceptionally clear and dark tonight. These are ideal conditions for the tournament's astronomy competition. Each participant receives a fragment of the sky to analyse (your notes), featuring several stars. Your goal is to create a constellation from these stars and determine its size.
+Example based on the following notes:
+*...*
+..*..
+.....
+.....
+*.*..
+There are five stars in the sample part of the sky, so let's use numbers to identify them more easily and note their coordinates, assuming the bottom left corner has coordinates  1, 1 :
+1...2
+..3..
+.....
+.....
+4.5..
+
+ Star     Coordinates
+   1          1,5
+   2          5,5
+   3          3,4
+   4          1,1
+   5          3,1
+Creating a constellation from this group may look as follows:
+
+There are four connections with the distances as below:
+Connected Stars       Distance
+    1 and 3               3
+    2 and 3               3
+    3 and 5               3
+    4 and 5               2
+The constellation contains 5 stars, and the sum of all connections between them is 11, so the final size is equal to 5 + 11 = 16.
+There are many other ways to connect the stars into a single structure; however, the one above results in the lowest possible size for this example, so only this is considered an actual constellation.
+What is the size of the constellation created from all the stars on your part of the sky?
+
+Part II
+
+The second round of the task is exactly the same. The only changes are the size of the sky you need to analyse and the number of stars to connect into a single constellation. However, your method is very well prepared for slightly larger notes!
+What is the size of the constellation created from all the stars on your part of the sky?
+
+Part III
+
+There is also a special type of constellation called a brilliant constellation. They function similarly to regular constellations, but the distance between connected stars must be less than 6. If two stars or groups of stars are further apart, they are considered as separate brilliant constellations.
+The final round involves finding brilliant constellations on the given fragment of the sky. Identify the three largest brilliant constellations and multiply their sizes to get the final answer.
+Example based on the following notes:
+.......................................
+..*.......*...*.....*...*......**.**...
+....*.................*.......*..*..*..
+..*.........*.......*...*.....*.....*..
+......................*........*...*...
+..*.*.....*...*.....*...*........*.....
+.......................................
+There are 4 brilliant constellations with sizes (from the left): 14, 21, 24, and 31.
+Multiplying the three largest sizes gives 31 * 24 * 21 = 15624.
+Find the three largest brilliant constellations on your new part of the sky. What is the result of multiplying their sizes?

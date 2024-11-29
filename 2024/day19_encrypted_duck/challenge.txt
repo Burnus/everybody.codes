@@ -1,0 +1,134 @@
+Part I
+
+During the Tournament, the Order of the Golden Duck has opened its catacombs for exploration by contestants. As you navigate through narrow corridors, you come across a large chamber, well-lit by sunlight streaming in through small windows at its peak. In the center lies a stone tomb with a plaque in front of it:
+ 
+ = Sir Enigmatus Encriptus =
+
+ Devised a method to communicate without the risk 
+ of message interception by messengers or enemies 
+ during the Great RAM (Realm Allocation Mayhem) War 
+  
+Around the tomb, there are many books placed on pedestals. You check a few of them. In addition to the descriptions of the heroic deeds and accomplishments of the Golden Duck Order, you also find a book describing the method of message encryption. It turns out to be very simple yet clever!
+The message is hidden on a grid of characters. To read the message, you need to perform a sequence of rotations on every rotation point on the grid according to the message key.
+To start, you need to understand the concept of a rotation point. Each cell on the grid has neighbouring cells (including diagonals). The number of neighbouring cells depends on whether the cell is in the corner (3 neighbouring cells), on the edge (5 neighbouring cells), or elsewhere (8 neighbouring cells). A rotation point is a cell that has 8 neighbouring cells. Example rotation points on a grid are marked with  R  below, and their neighbouring cells are marked with  N :
+NNN..     .....     .....     .....
+NRN..     .....     NNN..     .NNN.
+NNN..     ..NNN     NRN..     .NRN.
+.....     ..NRN     NNN..     .NNN.
+.....     ..NNN     .....     .....
+To untangle the hidden message, you need to rotate the 8 cells surrounding each rotation point to the left or right according to the message key. Start from the top leftmost rotation point, continuing through all the rotation points to the right on the same row, then proceed to the following row, moving from left to right. Repeat this process until you reach the final rotation point on the bottom right. Note that the border cells are not rotation points, as they do not have 8 surrounding neighbouring cells.
+Below you can see the correct order for processing all 9 rotation points on the sample 5x5 grid:
+NNN..     .NNN.     ..NNN     .....     .....     .....     .....     .....     .....
+NRN..     .NRN.     ..NRN     NNN..     .NNN.     ..NNN     .....     .....     .....
+NNN..     .NNN.     ..NNN     NRN..     .NRN.     ..NRN     NNN..     .NNN.     ..NNN
+.....     .....     .....     NNN..     .NNN.     ..NNN     NRN..     .NRN.     ..NRN
+.....     .....     .....     .....     .....     .....     NNN..     .NNN.     ..NNN
+There are 2 possible operations that can be performed on rotation points:
+ R  - rotate neighbouring cells by one item clockwise:
+ABC     HAB
+HxD  >  GxC
+GFE     FED
+
+
+ L  - rotate neighbouring cells by one item counterclockwise:
+ABC     BCD
+HxD  >  AxE
+GFE     HGF
+The message key contains a sequence of  R  and  L  operations that should be performed on all rotation points on the message grid. If the key is shorter than the number of operations required, you simply repeat the key as many times as necessary.
+The final message always starts after the  >  and ends before the  <  characters. These characters are always unique within the grid.
+You decide to practise decoding a sample message from the book (your notes), just for fun.
+Example based on the following notes:
+LR
+
+>-IN-
+-----
+W---<
+The first line contains the message key:  LR . You can repeat it as many times as needed, so in fact it looks like this:  LRLRLRLRLR... . The rest of the input is separated by an empty line and represents the hidden message.
+To read the message, you need to perform the key operations sequence on the message grid. The sample grid is small, so there are only 3 rotation points. Below you can see the sequence of operations with the rotation points highlighted:
+ 
+ >-IN-    -I-N-    --I--    -----    -----
+ -----    >----    >W-N-    >WIN<    >WIN< 
+ W---<    -W--<    ----<    -----    -----
+
+ start      L        R        L       end
+You can confirm that decoding is successful, because  >  and  <  are in the same line.
+In the example above the hidden message is WIN.
+What is the message hidden in the example you are analysing?
+
+Part II
+
+Of course, that was only an example showing the basic idea. The real messages had additional, misleading symbols which made the decoding process much more difficult. Additionally, processing the message according to the key only once was deemed insufficient, as it could be easily decoded by enemies.
+Standard messages assumed that the operations for the whole message needed to be repeated  100  times. Each time you start from the top left rotation point and from the beginning of the message key sequence.
+You find another riddle in the book (your notes), where the hidden message is the number of potions used by Sir Enigmatus Encriptus during the battle with the HTML (Hulking Tapestry Mighty Leviathan).
+Example based on the following notes:
+RRLL
+
+A.VI..>...T
+.CC...<...O
+.....EIB.R.
+.DHB...YF..
+.....F..G..
+D.H........
+Below you can see all the rotation points highlighted for a single round of operations. You must visit them in order, from left to right and row by row, from top to bottom.
+
+Result after 1 round of operations:
+.C...E.....
+..IB...YFB.
+.A..V...>TO
+.CH....I...
+.D.....FR..
+D.<.H..G...
+Results after 2, 3, 4, and 5 rounds:
+..C.V..F>.B
+A....B.I..Y
+.....E.F...
+.I<D.......
+.D...HG.T..
+C...H.OR...   A....EB....
+...D..F..FI
+....C.G..BY
+V..D..O....
+.C..>HRH...
+I...<..T...   ....C.....F
+...D.D.....
+.A...ERHB.I
+...C...G...
+VI...<THB..
+..F>..Y.O..   .....ED.B..
+A..C.D.G.H.
+......TH.F.
+C.FI..YR...
+..>V...<...
+......IB.O.
+Results after 97, 98, 99, and 100 rounds:
+....IECBV..
+..>......YF
+.A.....I.O.
+C.R.B.<.F..
+D..D.......
+..T.G...HH.   ..........Y
+A...B.B.FI.
+...D.E..C.F
+I>T........
+C..DVG..OH.
+....R...<H.   A..B.E.FC.I
+...........
+...D.....Y.
+....D...H..
+I..C.R.G.H.
+>.BVT.FO.<.   ...........
+..B.D.F.H..
+.A.C.E.G.I.
+..B.D.F.H..
+.>VICTORY<.
+...........
+In the example above, the hidden message is VICTORY.
+Decode your message. What is the number of potions used by Sir Enigmatus Encriptus during the battle with the HTML?
+
+Part III
+
+The guard notices how adept you are with the arcane code and asks if you would like to try your hand at the official test. Every knight of the Order must pass it, so why not take this opportunity?
+The test involves deciphering another message written by Sir Enigmatus Encriptus from when he was on a reconnaissance mission and had to count the number of knights on Little Ending Island preparing legions for a huge invasion!
+The Order agreed to use  1048576000  rounds of operations instead of the regular 100 for such important messages!
+There is no way to do this by hand in a reasonable time; however, you have decoded the previous message, so you have something to experiment with.
+Decode your message. What was the number of knights on Little Ending Island?
